@@ -22,6 +22,8 @@ public class WebNode {
 		if(getDepth() <0) {
 			//System.out.println(getDepth()+" "+webPage.name+" "+webPage.url);
 			findChild();
+			System.out.println("size: "+this.children.size());
+			
 		}else {
 			//System.out.println(getDepth()+" "+webPage.name+" "+webPage.url);
 		}

@@ -20,6 +20,8 @@ public class WordCounter {
     		content = fetchContent();
     	}catch(IOException e){
     		System.out.println("content IOException. "+e.getMessage());
+    	}catch(Exception e) {
+    		System.out.println("other content Exception. "+e.getMessage());
     	}
     	
     }

@@ -46,9 +46,16 @@ public class TestProject extends HttpServlet {
 		}
 		GoogleQuery google = new GoogleQuery(request.getParameter("keyword"));
 		
+		
+		LinkedHashMap<String, String> query = google.query();
+		
+		/*
+		 * 
 		LinkedHashMap<String, String> que = google.query();
 		Sort sort = new Sort(que);
-		LinkedHashMap<String, String> query = sort.testReturn();
+		LinkedHashMap<String, String> query = sort.testReturn();*/
+		
+		
 		
 		String[][] s = new String[query.size()][2];
 		request.setAttribute("query", s);

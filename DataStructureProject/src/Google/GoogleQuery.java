@@ -7,6 +7,10 @@ import java.io.InputStream;
 
 import java.io.InputStreamReader;
 
+import java.io.File;  // Import the File class
+
+import java.io.FileWriter;   // Import the FileWriter class
+
 import java.net.URL;
 
 import java.net.URLConnection;
@@ -25,6 +29,7 @@ import org.jsoup.nodes.Element;
 
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
 
 
 public class GoogleQuery 
@@ -58,8 +63,9 @@ public class GoogleQuery
 		URL u = new URL(url);
 
 		URLConnection conn = u.openConnection();
-
-		conn.setRequestProperty("User-agent", "Chrome/7.0.517.44");
+		
+		//"Chrome/7.0.517.44"
+		conn.setRequestProperty("User-agent", "Chrome/97.0.4692.71");
 
 		InputStream in = conn.getInputStream();
 
@@ -88,14 +94,12 @@ public class GoogleQuery
 		}
 
 		LinkedHashMap<String, String> retVal = new LinkedHashMap<String, String>();
-		
 		Document doc = Jsoup.parse(content);
 		System.out.println(doc.text());
 		Elements lis = doc.select("div");
 //		 System.out.println(lis);
 		lis = lis.select(".kCrYT");
 		// System.out.println(lis.size());
-		
 		
 		for(Element li : lis)
 		{
@@ -134,7 +138,113 @@ public class GoogleQuery
 		return retVal;
 
 	}
+	public String[][] queryText() throws IOException
 
+	{
+
+		if(content==null)
+
+		{
+
+			content= fetchContent();
+
+		}
+
+		
+		
+		Document doc = Jsoup.parse(content);
+		//System.out.println(doc.text());
+		/*check fetch content page 
+		try {
+		      FileWriter myWriter = new FileWriter("filename.txt");
+		      myWriter.write(content);
+		      myWriter.close();
+		      System.out.println("Successfully wrote to the file.");
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		*/
+		Elements lis = doc.select("div");
+		lis = lis.select(".ZINbbc");//*
+		System.out.println(lis.size());
+		
+		
+		/*".tF2Cxc" for select lis
+		lis = lis.select(".tF2Cxc");
+		 * 
+		 * 
+		String citeUrl = i.select("div").get(0).select("a").get(0).attr("href");
+		String title =  i.select("div").get(0).select("a").get(0).select(".vvjwJb").text();
+		String text = i.select("div").get(1).select("div").get(0).select("span").get(1).text();
+		 * 
+		 * 
+		 * 
+		 */
+		//System.out.println(doc.select("div").select(".tF2Cxc").get(0).className());
+		
+		
+		String[][] returnArray = new String[100][3];//notice some space may be empty due to exception
+
+		int index = 0;
+		for(Element i:lis)
+		{
+			
+			try {
+				
+				String citeUrl = i.select("div").get(0).select("a").get(0).attr("href");
+				String title =  i.select("div").get(0).select("a").get(0).select("h3").text();
+				//System.out.println(title + "			"+citeUrl);
+				
+				//String text = i.select("div").get(2).select("div").get(0).select("div").get(0).select("div").get(0).select("div").get(0).select("div").get(0).text();
+				String text = i.select("div.BNeawe > div > div > div.BNeawe").text();
+				
+				//System.out.println("-------------"+text);
+				/*
+				System.out.println("*"+i.select("div").get(2));
+				System.out.println("&"+i.select("div").get(0));
+				System.out.println("$"+i.select("div").size());*/
+				if(citeUrl.equals("") || title.equals("")) {
+					continue;
+				}
+				if(citeUrl == null || title == null || text == null) {
+					continue;
+				}
+				if(text.equals("") || text == null) {
+					System.out.println("null???: "+title);
+				}
+				
+				
+				//"/url?q="prefix of url
+				if(citeUrl.length() > 7) {
+					if(citeUrl.substring(0,7).equals("/url?q=")) {
+						citeUrl = citeUrl.substring(7,citeUrl.length());
+					}
+				}
+				returnArray[index][0] = title;
+				returnArray[index][1] = citeUrl;
+				returnArray[index][2] = text;
+				index++;
+				
+				//System.out.println(title + "			"+citeUrl+"\n"+text);
+
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println(e.getMessage());
+//				e.printStackTrace();
+
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+
+			
+
+		}
+
+		
+
+		return returnArray;
+
+	}
 	
 
 	

@@ -22,11 +22,12 @@ public class Keyword {
 		returnList.add(new Keyword("打蠟",8));
 		returnList.add(new Keyword("台灣蘋果",8));
 		
-		returnList.add(new Keyword("食物",5));
+		
 		returnList.add(new Keyword("青森",5));
 		returnList.add(new Keyword("甜",5));
 		returnList.add(new Keyword("脆",5));
-		returnList.add(new Keyword("紅色",3));
+		returnList.add(new Keyword("食物",1));
+		returnList.add(new Keyword("紅色",1));
 		return returnList;
 	}
 }

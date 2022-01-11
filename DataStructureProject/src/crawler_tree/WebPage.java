@@ -16,7 +16,11 @@ public class WebPage {
 		this.url = url;
 		this.name = name;
 		this.counter = new WordCounter(url);
-		this.urlList = counter.subPageLink(counter.content,limit);
+		if(limit > 0) {
+			this.urlList = counter.subPageLink(counter.content,limit);
+		}else {
+			this.urlList = new ArrayList<String>();
+		}
 	}
 	
 	public void setScore(ArrayList<Keyword> keywords){

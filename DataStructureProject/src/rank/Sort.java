@@ -7,29 +7,50 @@ import crawler_tree.WebTree;
 import crawler_tree.Keyword;
 
 public class Sort {
-	private LinkedHashMap<String,String> linkedMap;
+	private ArrayList<WebsiteInfo> beginning;
 	private ArrayList<WebsiteInfo> zeroScore;
 	private ArrayList<WebsiteInfo> positiveScore;
 	private ArrayList<WebsiteInfo> result;
 	private LinkedHashMap<String,String> test;
+	private static int searchLimit=20;
 	
-	public Sort(LinkedHashMap<String,String> linkedMap) {
-		this.linkedMap = linkedMap;
+	public Sort(String[][] textArray) {
+		this.beginning = new ArrayList<WebsiteInfo>();
 		this.zeroScore = new ArrayList<WebsiteInfo>();
 		this.positiveScore = new ArrayList<WebsiteInfo>();
-		result = new ArrayList<WebsiteInfo>();
+		this.result = new ArrayList<WebsiteInfo>();
+		
+		for(int i = 0;i<100;i++) {
+			try {
+				if(textArray[i][0] == "")
+					break;
+				if(textArray[i][2] == null)
+					break;
+				beginning.add(new WebsiteInfo(textArray[i][0],textArray[i][1],textArray[i][2],0));
+				//System.out.println(textArray[i][0]+"    "+textArray[i][1]+"     "+textArray[i][2]);
+			}catch(ArrayIndexOutOfBoundsException e) {
+				break;
+			}
+			
+		}		
+		
+		
+		
+		
 		organize();
 		
-		System.out.println(positiveScore.size()+"/"+zeroScore.size()+ "/"+linkedMap.size());
+		System.out.println(positiveScore.size()+"/"+zeroScore.size()+ "/"+beginning.size());
 		sortLink();
 		for(WebsiteInfo k:result) {
 			System.out.println(k.score+" "+k.title);
 		}
 	}
 	private void organize() {
-		for(String st:linkedMap.keySet()) {
+		for(int i = 0;i<beginning.size();i++) {
+			if(positiveScore.size()+zeroScore.size() >= searchLimit)
+				break;
 			int limit = 0;//how many link need to check in each website
-			WebPage rootPage = new WebPage(linkedMap.get(st), "Test",limit);
+			WebPage rootPage = new WebPage(beginning.get(i).url, "Test",limit);
 			//System.out.println(st);
 			WebTree tree = new WebTree(rootPage,limit);
 			//Keyword key = new Keyword("Lab",1);//input
@@ -37,11 +58,12 @@ public class Sort {
 			//keylist.add(key);
 			tree.setPostOrderScore(keylist);			
 			tree.eularPrintTree();
-			double score = rootPage.score;
+			double score = tree.root.nodeScore;
 			if(score > 0) {
-				positiveScore.add(new WebsiteInfo(st,linkedMap.get(st),score));
+				beginning.get(i).score = score;
+				positiveScore.add(beginning.get(i));
 			}else {
-				zeroScore.add(new WebsiteInfo(st,linkedMap.get(st),score));
+				zeroScore.add(beginning.get(i));
 			}
 		}
 	}
@@ -70,5 +92,9 @@ public class Sort {
 		}
 		return test;
 	}
+	public ArrayList<WebsiteInfo> getResult() {
+		return this.result;
+	}
+	
 	
 }
