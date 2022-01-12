@@ -12,7 +12,7 @@ public class Sort {
 	private ArrayList<WebsiteInfo> positiveScore;
 	private ArrayList<WebsiteInfo> result;
 	private LinkedHashMap<String,String> test;
-	private static int searchLimit=20;
+	private static int searchLimit=100;
 	
 	public Sort(String[][] textArray) {
 		this.beginning = new ArrayList<WebsiteInfo>();
@@ -50,7 +50,8 @@ public class Sort {
 			if(positiveScore.size()+zeroScore.size() >= searchLimit)
 				break;
 			int limit = 0;//how many link need to check in each website
-			WebPage rootPage = new WebPage(beginning.get(i).url, "Test",limit);
+			int titleLength = Math.min(beginning.get(i).title.length(), 10);
+			WebPage rootPage = new WebPage(beginning.get(i).url, beginning.get(i).title.substring(0,titleLength),limit);
 			//System.out.println(st);
 			WebTree tree = new WebTree(rootPage,limit);
 			//Keyword key = new Keyword("Lab",1);//input

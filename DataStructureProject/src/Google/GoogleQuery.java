@@ -49,11 +49,26 @@ public class GoogleQuery
 	{
 
 		this.searchKeyword = searchKeyword;
+		
+		this.searchKeyword = this.plus();
+		
 		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=100";
 
 	}
 
-	
+	private String plus() {
+		ArrayList<String> keywordList = new ArrayList<String>();
+		String[] splited = this.searchKeyword.split("\\s+");
+		String returnString = "";
+		for(String k:splited) {
+			if(returnString.equals("")) {
+				returnString = k;
+			}else {
+				returnString += ("+"+k);
+			}
+		}
+		return returnString;
+	}
 
 	private String fetchContent() throws IOException
 
@@ -204,14 +219,18 @@ public class GoogleQuery
 				System.out.println("*"+i.select("div").get(2));
 				System.out.println("&"+i.select("div").get(0));
 				System.out.println("$"+i.select("div").size());*/
+				
 				if(citeUrl.equals("") || title.equals("")) {
+					//System.out.println(title + "			"+citeUrl+"		"+text);
 					continue;
 				}
-				if(citeUrl == null || title == null || text == null) {
+				if(citeUrl == null || title == null) {
+					
 					continue;
 				}
 				if(text.equals("") || text == null) {
 					System.out.println("null???: "+title);
+					continue;
 				}
 				
 				

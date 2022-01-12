@@ -18,14 +18,17 @@ public class Keyword {
 		returnList.add(new Keyword("水果",10));
 		returnList.add(new Keyword("蘋果皮",10));
 		returnList.add(new Keyword("蘋果樹",10));
+		returnList.add(new Keyword("吃蘋果",10));
+		returnList.add(new Keyword("蘋果籽",10));
 		
 		returnList.add(new Keyword("打蠟",8));
 		returnList.add(new Keyword("台灣蘋果",8));
 		
-		
 		returnList.add(new Keyword("青森",5));
 		returnList.add(new Keyword("甜",5));
 		returnList.add(new Keyword("脆",5));
+		
+		returnList.add(new Keyword("營養",1));
 		returnList.add(new Keyword("食物",1));
 		returnList.add(new Keyword("紅色",1));
 		return returnList;

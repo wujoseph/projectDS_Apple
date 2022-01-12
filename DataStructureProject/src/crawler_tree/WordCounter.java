@@ -26,23 +26,32 @@ public class WordCounter {
     	
     }
     
-    private String fetchContent() throws IOException{
-		URL url = new URL(this.urlStr);
-		URLConnection conn = url.openConnection();
-		//System.out.println(this.urlStr);
-		InputStream in = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	
+    private String fetchContent() throws IOException
+
+	{
 		String retVal = "";
-	
-		String line = null;
+
+		URL u = new URL(this.urlStr);
+
+		URLConnection conn = u.openConnection();
 		
-		while ((line = br.readLine()) != null){
-		    retVal = retVal + line + "\n";
+		//"Chrome/7.0.517.44"
+		conn.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36");
+
+		InputStream in = conn.getInputStream();
+
+		InputStreamReader inReader = new InputStreamReader(in,"utf-8");
+
+		BufferedReader bufReader = new BufferedReader(inReader);
+		String line = null;
+
+		while((line=bufReader.readLine())!=null)
+		{
+			retVal += line;
+
 		}
-	
 		return retVal;
-    }
+	}
 	public int boyerMoore(String strT,String strP) {//strT:content, strP:keyword, return the amount of keyword
     	HashMap<Character,Integer>map = new HashMap<>();
     	
@@ -53,7 +62,6 @@ public class WordCounter {
 		int count = 0;
 		for(int i = strP.length()-1;i<strT.length();) {
 			for(int j = strP.length()-1;j >= 0;) {
-				count++;
 				int strL = strP.length()-j;
 				if(strT.charAt(i) != strP.charAt(j)) {
 					//System.out.println("i:"+i+"   j:"+j+"    "+strT.substring(i,i+strL)+"/"+strP.substring(j,strP.length()));
@@ -68,6 +76,7 @@ public class WordCounter {
 					//System.out.println("-------------Substring find. "+strT.substring(i,i+strP.length()));
 					//System.out.println("count:"+count);
 					i = i + strP.length();
+					count++;
 					break;
 				}else {
 					i--;
@@ -164,12 +173,14 @@ public class WordCounter {
 		int retVal = 0;
 		int fromIdx = 0;
 		int found = -1;
-	
+		
+		/*
 		while ((found = content.indexOf(keyword, fromIdx)) != -1){
 		    retVal++;
 		    fromIdx = found + keyword.length();
 		}
-	
-		return retVal;
+		*/
+		return this.boyerMoore(content, keyword);
+		//return retVal;
     }
 }
