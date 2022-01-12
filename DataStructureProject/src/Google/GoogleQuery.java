@@ -52,7 +52,7 @@ public class GoogleQuery
 		
 		this.searchKeyword = this.plus();
 		
-		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=100";
+		this.url = "http://www.google.com/search?q="+this.searchKeyword+"&oe=utf8&num=100";
 
 	}
 

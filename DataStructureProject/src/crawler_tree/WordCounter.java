@@ -37,7 +37,10 @@ public class WordCounter {
 		
 		//"Chrome/7.0.517.44"
 		conn.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36");
-
+		conn.setRequestProperty("sec-ch-ua", " Not;A Brand;v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97");
+		conn.setRequestProperty("sec-ch-ua-platform","Windows");
+		conn.setRequestProperty("referer", "https://www.google.com/");
+		
 		InputStream in = conn.getInputStream();
 
 		InputStreamReader inReader = new InputStreamReader(in,"utf-8");
