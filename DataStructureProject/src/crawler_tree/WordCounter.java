@@ -29,6 +29,10 @@ public class WordCounter {
     private String fetchContent() throws IOException
 
 	{
+    	System.out.println("link:"+this.urlStr);
+    	if(this.urlStr.contains("https://cdn.shopify.com/s/files")) {
+    		return "";
+    	}
 		String retVal = "";
 
 		URL u = new URL(this.urlStr);

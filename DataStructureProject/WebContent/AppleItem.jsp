@@ -44,7 +44,8 @@ text-decoration:underline;
 <form action='${requestUri}' method='get'>
 
 	<div style='vertical-align: middle;'>
-		<img src="https://www.applesfromny.com/wp-content/uploads/2020/06/SnapdragonNEW.png" style = 'position:relative;width:153px;height:120px;vertical-align: middle;'>
+		<a href="http://localhost:8080/Web/TestProject2"><img src="https://www.applesfromny.com/wp-content/uploads/2020/06/SnapdragonNEW.png" style = 'position:relative;width:153px;height:120px;vertical-align: middle;'>
+		</a>
 		<input type='text' class="text" id="padding"  style='font-size:120%;position:relative;width:500px;height:50px;vertical-align: middle;' name='keyword' placeholder='請輸入關鍵字'
 onfocus="placeholder= '' " onblur="placeholder='請輸入關鍵字'" />
 			<input type = "submit" value="搜尋" class="input" style ='position:relative;height:40px;width:130;vertical-align: middle;'>

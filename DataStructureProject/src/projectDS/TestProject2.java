@@ -1,8 +1,10 @@
 package projectDS;
 
+import crawler_tree.WebNode;
 import Google.GoogleQuery;
 import rank.Sort;
 import rank.WebsiteInfo;
+
 
 import java.util.ArrayList;
 
@@ -48,21 +50,37 @@ public class TestProject2 extends HttpServlet {
 			return;
 		}
 		GoogleQuery google = new GoogleQuery(request.getParameter("keyword"));
+		int displayAmount;
+		int searchDepth;
+		int subWebsiteAmount;
+		try {			
+			displayAmount = Integer.parseInt(request.getParameter("displayAmount"));
+			searchDepth = Integer.parseInt(request.getParameter("searchDepth"));
+			subWebsiteAmount = Integer.parseInt(request.getParameter("subWebsiteAmount"));
+			System.out.println(displayAmount+" "+searchDepth+" "+subWebsiteAmount);
+		}catch(Exception e) {
+			System.out.println("only number is allowed");
+			displayAmount = 100;
+			searchDepth = 0;
+			subWebsiteAmount = 0;
+		}
+		WebNode.searchDepth = searchDepth;
+		
 		
 		
 		String[][] textArray = google.queryText();
 		
-		Sort sort = new Sort(textArray);
+		Sort sort = new Sort(textArray,subWebsiteAmount);
 		//LinkedHashMap<String, String> query = sort.testReturn();
 		ArrayList<WebsiteInfo> result = sort.getResult();
 		
 		
-		String[][] s = new String[result.size()][3];
+		String[][] s = new String[Math.min(displayAmount,result.size())][3];
 		
 		
 		request.setAttribute("query", s);
 		int num = 0;
-		for(int i =0;i<result.size();i++) {
+		for(int i =0;i<Math.min(displayAmount,result.size());i++) {//only show limited search result
 		    
 		    s[i][0] = result.get(i).title;
 		    s[i][1] = result.get(i).url;

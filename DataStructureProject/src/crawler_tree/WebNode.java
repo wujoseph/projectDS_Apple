@@ -9,6 +9,7 @@ public class WebNode {
 	public WebPage webPage;	//child element
 	public double nodeScore;//main element This node's score += all its children��s nodeScore
 	public int limit;
+	public static int searchDepth;
 	
 	public WebNode(WebPage webPage,WebNode parent,int limit){
 		this.limit = limit;
@@ -19,7 +20,7 @@ public class WebNode {
 		if(webPage.urlList == null)
 			return;
 		
-		if(getDepth() <0) {
+		if(getDepth() <searchDepth) {
 			//System.out.println(getDepth()+" "+webPage.name+" "+webPage.url);
 			findChild();
 			System.out.println("size: "+this.children.size());
