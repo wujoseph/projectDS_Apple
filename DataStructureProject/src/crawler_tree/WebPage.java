@@ -12,16 +12,17 @@ public class WebPage {
 	public ArrayList<String> urlList;
 	public int limit;
 	
-	public WebPage(String url,String name,int limit){
+	public WebPage(String url,int limit){
 		this.limit = limit;
 		this.url = url;
-		this.name = name;
 		this.counter = new WordCounter(url);
 		if(limit > 0) {
-			this.urlList = counter.subPageLink(counter.content,limit);
+			this.urlList = counter.subPageLink2(limit);
 		}else {
 			this.urlList = new ArrayList<String>();
 		}
+		String title = counter.title();
+		this.name = title.substring(0, Math.min(title.length(), 20));
 	}
 	
 	public void setScore(ArrayList<Keyword> keywords){

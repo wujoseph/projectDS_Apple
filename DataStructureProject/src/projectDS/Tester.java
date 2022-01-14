@@ -14,12 +14,12 @@ import rank.WebsiteInfo;
 public class Tester {
 	public static void main(String args[]){
 		
-		GoogleQuery google = new GoogleQuery("蘋果+水果");
+		GoogleQuery google = new GoogleQuery("banana");
 		
 		try{
 			String[][] textArray = google.queryText();
 			
-			Sort sort = new Sort(textArray);
+			Sort sort = new Sort(textArray,2);
 			//LinkedHashMap<String, String> query = sort.testReturn();
 			ArrayList<WebsiteInfo> result = sort.getResult();
 			

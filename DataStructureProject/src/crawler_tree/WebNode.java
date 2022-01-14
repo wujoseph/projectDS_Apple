@@ -62,7 +62,7 @@ public class WebNode {
 			}else {
 				newChildPage = new WebPage(webPage.urlList.get(i),parent.webPage.name+"/"+i,limit);
 			}*/
-			newChildPage = new WebPage(webPage.urlList.get(i),webPage.name+"/"+i,limit);
+			newChildPage = new WebPage(webPage.urlList.get(i),limit);
 			WebNode child = new WebNode(newChildPage,this,limit);
 			this.children.add(child);
 		}

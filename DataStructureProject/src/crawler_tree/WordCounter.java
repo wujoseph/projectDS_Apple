@@ -10,6 +10,12 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 public class WordCounter {
 	private String urlStr;
     public String content;
@@ -71,8 +77,6 @@ public class WordCounter {
 			for(int j = strP.length()-1;j >= 0;) {
 				int strL = strP.length()-j;
 				if(strT.charAt(i) != strP.charAt(j)) {
-					//System.out.println("i:"+i+"   j:"+j+"    "+strT.substring(i,i+strL)+"/"+strP.substring(j,strP.length()));
-					//System.out.println("count:"+count);
 					if(map.get(strT.charAt(i)) != null)
 						i = i + strP.length() - Math.min(j,1+map.get(strT.charAt(i)));
 					else
@@ -80,8 +84,6 @@ public class WordCounter {
 					break;
 				}
 				else if(j == 0) {
-					//System.out.println("-------------Substring find. "+strT.substring(i,i+strP.length()));
-					//System.out.println("count:"+count);
 					i = i + strP.length();
 					count++;
 					break;
@@ -170,6 +172,31 @@ public class WordCounter {
 		//System.out.println("count:"+count);
 		return returnList;
 	}
+	public ArrayList<String> subPageLink2(int limit) {//strT:content, strP:keyword, return the amount of keyword
+		ArrayList<String> returnList = new ArrayList<String>();
+		if(content == null || content == "")
+			return returnList;
+		
+    	Document doc = Jsoup.parse(content);
+    	Elements anchors= doc.select("a");
+    	
+    	int i = 0;
+    	for(Element e:anchors) {
+    		String link = e.attr("href");
+    		if(link.length() < 2)
+    			continue;
+    		if(link.substring(0,1).equals("/") || link.substring(0,1).equals("#")){
+    			link = this.urlStr + link;
+    		}else if(link.substring(0,2).equals("./")){
+    			link = this.urlStr + link.substring(1, link.length());
+    		}
+    		
+    		returnList.add(link);
+    		i++;
+    		if(i > limit)break;
+    	}
+    	return returnList;
+	}
     
     public int countKeyword(String keyword){	
 		//To do a case-insensitive search, we turn the whole content and keyword into upper-case:
@@ -189,5 +216,13 @@ public class WordCounter {
 		*/
 		return this.boyerMoore(content, keyword);
 		//return retVal;
+    }
+    public String title() {
+    	if(content == null)return "title";
+    	Document doc = Jsoup.parse(content);
+    	if(doc.select("title").size()>0)
+    		return doc.select("title").get(0).text();
+    	else
+    		return "???";
     }
 }

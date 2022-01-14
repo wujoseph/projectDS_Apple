@@ -33,7 +33,7 @@ public class WebTree {
 	private void eularPrintTree(WebNode startNode){
 		int nodeDepth = startNode.getDepth();
 		
-		if(nodeDepth > 1) System.out.print("\n" + repeat("\t", nodeDepth-1));
+		if(nodeDepth > 0) System.out.print("\n" + repeat("\t", nodeDepth));
 		//print "("
 		System.out.print("(");
 		//print "name","score"
